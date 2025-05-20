@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { FaSearch } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 // Sample list of universities used for search suggestions
 const universities = [
@@ -96,12 +97,18 @@ const Navbar = () => {
 
       {/* Right: Sign In / Sign Up buttons */}
       <div className="flex items-center space-x-4 w-full sm:w-auto justify-center sm:justify-start">
-        <button className="font-semibold px-4 py-2 rounded-md bg-gradient-to-r from-indigo-500 to-blue-500 text-white hover:from-indigo-600 hover:to-blue-600 transition-colors duration-300">
+        <Link
+          to="/signin"
+          className="font-semibold px-4 py-2 rounded-md bg-gradient-to-r from-indigo-500 to-blue-500 text-white hover:from-indigo-600 hover:to-blue-600 transition-colors duration-300"
+        >
           Sign In
-        </button>
-        <button className="font-semibold px-4 py-2 rounded-md bg-gradient-to-r from-indigo-500 to-blue-500 text-white hover:from-indigo-600 hover:to-blue-600 transition-colors duration-300">
+        </Link>
+        <Link
+          to="/signup"
+          className="font-semibold px-4 py-2 rounded-md bg-gradient-to-r from-indigo-500 to-blue-500 text-white hover:from-indigo-600 hover:to-blue-600 transition-colors duration-300"
+        >
           Sign Up
-        </button>
+        </Link>
       </div>
     </nav>
   );
