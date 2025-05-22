@@ -1,5 +1,6 @@
 import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import FacultyRatings from "../components/FacultyRatings";
 
 const FacultyDetails = () => {
   const location = useLocation();
@@ -46,7 +47,7 @@ const FacultyDetails = () => {
           &larr; Back
         </button>
 
-        <div className="border border-gray-300 rounded p-4">
+        <div className="border border-gray-300 rounded p-4 mb-6">
           <p>
             <strong>Initial:</strong> {faculty.initial}
           </p>
@@ -55,6 +56,9 @@ const FacultyDetails = () => {
           </p>
           {/* Add more faculty details here as needed */}
         </div>
+
+        {/* Mount FacultyRatings component */}
+        <FacultyRatings />
       </div>
     </div>
   );
