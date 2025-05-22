@@ -7,6 +7,8 @@ import PrivacyPolicy from "./pages/PrivacyPolicy";
 import TermofService from "./pages/TermofService";
 import Signin from "./pages/Signin";
 import Signup from "./pages/Signup";
+import SearchFaculty from "./pages/SearchFaculty";
+import FacultyDetails from "./pages/FacultyDetails";
 
 function App() {
   return (
@@ -19,6 +21,8 @@ function App() {
         <Route path="/tos" element={<TermofService />} />
         <Route path="/signin" element={<Signin />} />
         <Route path="/signup" element={<Signup />} />
+        <Route path="/searchfaculty" element={<SearchFaculty />} />
+        <Route path="/facultydetails" element={<FacultyDetails />} />
       </Routes>
       <Footer />
     </>

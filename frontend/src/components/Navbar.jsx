@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { FaSearch } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 // Sample list of universities used for search suggestions
 const universities = [
@@ -18,6 +18,8 @@ const universities = [
 
 // Navbar component renders the top navigation bar with a search input and sign in/up buttons
 const Navbar = () => {
+  const navigate = useNavigate();
+
   // State to store the current value of the search input
   const [searchTerm, setSearchTerm] = useState("");
   // State to store the filtered list of university suggestions based on search input
@@ -50,6 +52,21 @@ const Navbar = () => {
     setShowSuggestions(false); // Hide the suggestions dropdown
   };
 
+  // Handles clicking the search button to navigate to SearchFaculty page
+  const handleSearch = () => {
+    if (searchTerm.trim() !== "") {
+      // Navigate to /searchfaculty with university name as state
+      navigate("/searchfaculty", { state: { university: searchTerm.trim() } });
+    }
+  };
+
+  // Handle enter key press in input
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      handleSearch();
+    }
+  };
+
   return (
     <nav className="bg-white shadow-md px-6 py-3 flex flex-col sm:flex-row items-center justify-between flex-wrap">
       {/* Left: Site Title */}
@@ -58,41 +75,50 @@ const Navbar = () => {
       </div>
 
       {/* Center: Search Bar */}
-      <div className="relative flex-grow max-w-lg mx-0 sm:mx-4 w-full sm:w-auto mb-3 sm:mb-0">
-        <div className="flex items-center border border-gray-300 rounded-md overflow-hidden focus-within:ring-2 focus-within:ring-blue-500">
-          <input
-            type="text"
-            className="flex-grow px-4 py-2 focus:outline-none"
-            placeholder="Search University"
-            value={searchTerm}
-            onChange={handleChange} // Update search term and suggestions on input change
-            onFocus={() => {
-              // Show suggestions dropdown if there are filtered suggestions when input is focused
-              if (filteredSuggestions.length > 0) setShowSuggestions(true);
-            }}
-            onBlur={() => {
-              // Delay hiding suggestions to allow click on suggestion before dropdown disappears
-              setTimeout(() => setShowSuggestions(false), 100);
-            }}
-          />
-          <div className="px-3 text-gray-500">
-            <FaSearch />
+      <div className="relative flex-grow max-w-lg mx-0 sm:mx-4 w-full sm:w-auto mb-3 sm:mb-0 flex items-center">
+        <div className="flex-grow">
+          <div className="flex items-center border border-gray-300 rounded-md overflow-hidden focus-within:ring-2 focus-within:ring-blue-500">
+            <input
+              type="text"
+              className="flex-grow px-4 py-2 focus:outline-none"
+              placeholder="Search University"
+              value={searchTerm}
+              onChange={handleChange} // Update search term and suggestions on input change
+              onFocus={() => {
+                // Show suggestions dropdown if there are filtered suggestions when input is focused
+                if (filteredSuggestions.length > 0) setShowSuggestions(true);
+              }}
+              onBlur={() => {
+                // Delay hiding suggestions to allow click on suggestion before dropdown disappears
+                setTimeout(() => setShowSuggestions(false), 100);
+              }}
+              onKeyDown={handleKeyDown}
+            />
+            <div className="px-3 text-gray-500">
+              <FaSearch />
+            </div>
           </div>
+          {/* Suggestions dropdown list */}
+          {showSuggestions && filteredSuggestions.length > 0 && (
+            <ul className="absolute z-10 w-full bg-white border border-gray-300 rounded-md mt-1 max-h-48 overflow-auto shadow-lg">
+              {filteredSuggestions.map((suggestion, index) => (
+                <li
+                  key={index}
+                  className="px-4 py-2 cursor-pointer hover:bg-blue-100"
+                  onMouseDown={() => handleSuggestionClick(suggestion)} // Handle suggestion click
+                >
+                  {suggestion}
+                </li>
+              ))}
+            </ul>
+          )}
         </div>
-        {/* Suggestions dropdown list */}
-        {showSuggestions && filteredSuggestions.length > 0 && (
-          <ul className="absolute z-10 w-full bg-white border border-gray-300 rounded-md mt-1 max-h-48 overflow-auto shadow-lg">
-            {filteredSuggestions.map((suggestion, index) => (
-              <li
-                key={index}
-                className="px-4 py-2 cursor-pointer hover:bg-blue-100"
-                onMouseDown={() => handleSuggestionClick(suggestion)} // Handle suggestion click
-              >
-                {suggestion}
-              </li>
-            ))}
-          </ul>
-        )}
+        <button
+          onClick={handleSearch}
+          className="ml-2 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors duration-300"
+        >
+          Search
+        </button>
       </div>
 
       {/* Right: Sign In / Sign Up buttons */}
